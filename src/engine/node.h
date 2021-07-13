@@ -1,10 +1,15 @@
+#pragma once
 #include <vector>
 #include<engine/effect/effect.h>
-
-class Node{
-    public:
-        Node();
-        ~Node();
-    protected:
-        std::vector<Effect*> m_effectVector;
-};
+namespace chenpi{
+    class Node{
+        public:
+            Node();
+            ~Node();
+        public:
+            void Draw();
+            void PushEffect(Effect* effect);
+        protected:
+            std::vector<Effect*> m_vEffectVector;
+    };
+}

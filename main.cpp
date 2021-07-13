@@ -2,6 +2,9 @@
     #include <GLFW/glfw3.h>
     #include <iostream>
     #include <engine/node.h>
+    #include <engine/scene.h>
+    #include <render/render.h>
+
     // settings
     const unsigned int SCR_WIDTH = 800;
     const unsigned int SCR_HEIGHT = 600;

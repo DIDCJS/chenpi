@@ -7,10 +7,13 @@ SET(GLFW_PATH ${LIB_PATH}/glfw-3.3.4.bin.MACOS)
 # include(CTest)
 # enable_testing()
 
+set (CMAKE_CXX_STANDARD 11)
+
 file(GLOB_RECURSE CPP_FILES main.cpp 
 							${LIB_PATH}/glad/src/glad.c
 							src/engine/effect/*.cpp
-							src/engine/*.cpp)
+							src/engine/*.cpp
+							src/render/*.cpp)
 
 add_executable(chenpi ${CPP_FILES})
 
