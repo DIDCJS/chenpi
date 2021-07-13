@@ -5,9 +5,9 @@ namespace chenpi{
 class Effect{
 public:
     Effect();
-    ~Effect();
+    virtual ~Effect();
 public:
-    void Draw();
+    virtual void Draw();
 protected:
     Render* m_pRender = nullptr; //根据平台决定了渲染的方式（opengl,vulkan,metal and so on ）
 };

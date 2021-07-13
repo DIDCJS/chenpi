@@ -1,4 +1,5 @@
 #include <engine/scene.h>
+#include <engine/node.h>
 
 namespace chenpi{
     Scene::Scene(){
@@ -10,6 +11,10 @@ namespace chenpi{
     }
 
     void Scene::Draw(){
-        // m_pRootNode
+        m_pRootNode->Draw();
+    }
+
+    void Scene::SetRootNode(Node* pNode){
+        m_pRootNode = pNode;
     }
 }

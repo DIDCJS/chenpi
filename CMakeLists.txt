@@ -13,7 +13,8 @@ file(GLOB_RECURSE CPP_FILES main.cpp
 							${LIB_PATH}/glad/src/glad.c
 							src/engine/effect/*.cpp
 							src/engine/*.cpp
-							src/render/*.cpp)
+							src/render/*.cpp
+							src/render/opengl/*.cpp)
 
 add_executable(chenpi ${CPP_FILES})
 

@@ -10,7 +10,7 @@ namespace chenpi{
 
     void Node::Draw(){
         for(auto it : m_vEffectVector){
-            
+            it->Draw();
         }
     }
 

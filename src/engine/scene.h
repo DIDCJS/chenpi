@@ -8,6 +8,7 @@ namespace chenpi{
         ~Scene();
     public:
         void Draw();
+        void SetRootNode(Node* pNode);
     private:
         /* data */
         int m_nWidth = 0;

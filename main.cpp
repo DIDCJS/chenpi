@@ -4,6 +4,7 @@
     #include <engine/node.h>
     #include <engine/scene.h>
     #include <render/render.h>
+    #include <engine/effect/testEffect.h>
 
     // settings
     const unsigned int SCR_WIDTH = 800;
@@ -36,12 +37,21 @@
             std::cout << "Failed to initialize GLAD" << std::endl;
             return -1;
         }
+
+        // resigner a scene
+        chenpi::Scene* pScene = new chenpi::Scene();
+        // creat root Node
+        chenpi::Node* pRootNode = new chenpi::Node();
+        //push effect to Node
+        chenpi::Effect* pTestEffect = new chenpi::TestEffect();
+        pRootNode->PushEffect(pTestEffect);
+        pScene->SetRootNode(pRootNode);
+
         // render loop
         // -----------
         while (!glfwWindowShouldClose(window))
         {
-            glClearColor(0.0f, 1.f, 0.0f,1.0f);
-            glClear(GL_COLOR_BUFFER_BIT);
+            pScene->Draw();
             // glfw: swap buffers and poll IO events (keyspressed/released, mouse moved etc.)
             // ---------------------------------------------------
             glfwSwapBuffers(window);
@@ -50,5 +60,8 @@
         // glfw: terminate, clearing all previously allocated GLFWresources.
         //---------------------------------------------------------------
         glfwTerminate();
+
+
+        if(pScene) delete pScene;
         return 0;
     }

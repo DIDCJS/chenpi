@@ -4,7 +4,7 @@ class Render
 {
 public:
     Render(/* args */);
-    ~Render();
+    virtual ~Render();
 };
 
 }
