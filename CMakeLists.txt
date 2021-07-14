@@ -14,7 +14,8 @@ file(GLOB_RECURSE CPP_FILES main.cpp
 							src/engine/effect/*.cpp
 							src/engine/*.cpp
 							src/render/*.cpp
-							src/render/opengl/*.cpp)
+							src/render/opengl/*.cpp
+							)
 
 add_executable(chenpi ${CPP_FILES})
 

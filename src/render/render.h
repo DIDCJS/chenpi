@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <iostream>
 namespace chenpi{
 class Render
 {
