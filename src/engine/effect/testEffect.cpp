@@ -19,7 +19,9 @@ const char *fragmentShaderSource = "#version 330 core\n"
 
 TestEffect::TestEffect(/* args */){
     //TODO: need to choose the true api rendering(such as opengl\vulkan\..) ,depands on plaform macro
-    m_pRender = new OpenGL(vertexShaderSource, fragmentShaderSource);
+    m_pRender = new OpenGL();
+    auto pRender = dynamic_cast<OpenGL*>(m_pRender);
+    pRender->Init(vertexShaderSource, fragmentShaderSource);
 }
 
 TestEffect::~TestEffect(){
@@ -35,7 +37,10 @@ void TestEffect::Draw(){
         -1.0f, 1.0f, 0.0f,  
     }; 
     auto pRender = dynamic_cast<OpenGL*>(m_pRender);
-    pRender->Draw(pos, sizeof(pos)/ sizeof(float));   
+    pRender->SetVertexBuffer(pos,sizeof(pos)/sizeof(float), 1);
+    //clear color first
+    pRender->ClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+    pRender->Draw();   
 }
 
 }
