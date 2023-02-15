@@ -83,9 +83,6 @@ int main(int, char**) {
 
     Object* pO = static_cast<Object*>(pA);
     (pA->*setFun)();
-    
-    void (Object::*setFun1)() = memptr_cast<Object>(setFun);
-    (pO->*setFun1)();
 
     auto setFun2 = ClassFuncCast<Object>(setFun);
     (pO->*setFun2)();
