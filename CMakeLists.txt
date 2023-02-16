@@ -7,8 +7,14 @@ project(chenpi VERSION 0.1.0)
 include(CTest)
 enable_testing()
 
-file(GLOB_RECURSE SRC_FILES "engine/src/*.cpp" "engine/src/conpoment/*.cpp")
-file(GLOB_RECURSE INCLUDE_FILES "engine/include/*.h" "engine/include/conpoment/*.h")
+file(GLOB_RECURSE SRC_FILES "engine/src/*.cpp" 
+                    "engine/src/conpoment/*.cpp"
+                    "engine/core/*.cpp"
+                    )
+file(GLOB_RECURSE INCLUDE_FILES "engine/include/*.h" 
+                            "engine/include/conpoment/*.h"
+                            "engine/include/core/*.h"
+                            )
 # file(GLOB_RECURSE INCLUDE_FILES "*.cpp")
 
 message("### ${SRC_FILES}")

@@ -28,17 +28,7 @@ public:
     static CPPosition* CreateClassObject(){return new CPPosition();}
 
     static void Register(){
-        std::cout<<"### CPPosition::Register "<< std::endl;
-        SetFunc setFunc(&SetPos);
-        GetFunc getFunc(&GetPos);
-        GetPropertyNameFunc getName(&GetPosName);
-        PropertyTuple propertyTuple(setFunc, getFunc, getName);
-        s_propertyMap.insert(std::make_pair("CPPosition", propertyTuple));
-
-        CreateClassObjectFunc creatFunc(&CreateClassObject);
-        ClassTuple classTuple(creatFunc);
-        s_classMap.insert(std::make_pair("CPPosition", classTuple));
-
+      
     }
 
 public:
