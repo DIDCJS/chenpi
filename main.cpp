@@ -20,34 +20,56 @@ public:
         return m_nNum;
     }
 
+    static Object* Create(){
+        A* pA = new A();
+        return static_cast<Object*>(pA);
+    }
+
 public:
     int m_nNum;
 };
 
-class WrapperBase{
+class WrapperClassBase{
+public:
+    virtual Object* Create() = 0;
+};
 
+class WrapperPropertyBase{
+public:
+    virtual void Invoke(Object*) = 0;
+};
+
+template<typename Class>
+class WrapperClass : public WrapperClassBase{
+public:
+    Object* Create() override{
+        //TODO
+        return new Object();
+    }
+    void SetCreateFunc(std::function<Object*()> value){m_Function = value;}
+private:
+    std::function<Object*()> m_Function;
+    using ClassType = Class;
 };
 
 template<typename SetFunc, typename GetFunc>
-class WrapperProperty{
+class WrapperProperty : public WrapperPropertyBase{
 public:
     WrapperProperty(SetFunc setFunc, GetFunc getFunc){
         std::cout<< "WrapperProperty::WrapperProperty "<< std::endl;
         m_SetFunc = setFunc;
         m_GetFunc = getFunc;
     }
-    SetFunc GetSetFunc(){
-        return m_SetFunc;
+
+    void Invoke(Object* pObject) override{
+        //todo
     }
 
-    GetFunc GetGetFunc(){
-        return m_GetFunc;
-    }
+
 private:
     SetFunc m_SetFunc;
     GetFunc m_GetFunc;
 };
-
 
 template<typename SetFunc, typename GetFunc, typename ClassType>
 void Wrapper(SetFunc setFunc, GetFunc getFunc, ClassType* ptr){
@@ -60,9 +82,9 @@ void Wrapper(SetFunc setFunc, GetFunc getFunc, ClassType* ptr){
     // (*ft)(a);
 }
 
-void Register(){
-    CPPosition::Register();
-}
+// void Register(){
+//     CPPosition::Register();
+// }
 
 template<typename ReturnType, typename Class, typename... args>
 using FuncPtr = ReturnType (Class::*)(args...);
@@ -73,26 +95,29 @@ auto ClassFuncCast(FuncPtr<ReturnType, Class, args...> pFunc){
     return static_cast<FuncPtr<ReturnType, TargetClass, args...>>(pFunc);
 }
 
+static std::map<std::string, WrapperClassBase*> s_MapClass;
+static std::map<std::string, std::map<std::string, WrapperPropertyBase*>> s_MapProperty;
 
+void Register(){
+    WrapperClass<A>* pWClass = new WrapperClass<A>();
+    pWClass->SetCreateFunc(std::function<Object*()>(A::Create));
+    s_MapClass["A"] = pWClass;
+
+
+
+    auto pObject = pWClass->Create();
+    auto pA = static_cast<A*>(pObject);
+    std::cout<<pA->GetNum()<<std::endl;
+
+    // std::function<Object*()> pFunc(A::Create);
+    // auto pObject = pFunc();
+    // auto pA = static_cast<A*>(pObject);
+    // std::cout<<pA->GetNum()<<std::endl;
+}
 
 int main(int, char**) {
-    A* pA = new A();
-    Wrapper(&A::SetNum, &A::GetNum, pA);
-
-    void (A::*setFun)() = &A::SetNum;
-
-    Object* pO = static_cast<Object*>(pA);
-    (pA->*setFun)();
-
-    auto setFun2 = ClassFuncCast<Object>(setFun);
-    (pO->*setFun2)();
-
-
-    // // Object::*
-
-    // Test(&A::m_nNum);
-    // TestFunc(&A::SetNum);
-
+        
+    Register();
     return 0;
 
 

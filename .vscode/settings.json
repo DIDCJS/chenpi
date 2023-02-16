@@ -66,6 +66,7 @@
         "algorithm": "cpp",
         "functional": "cpp",
         "iterator": "cpp",
-        "utility": "cpp"
+        "utility": "cpp",
+        "__functional_03": "cpp"
     }
 }
