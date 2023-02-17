@@ -1,2 +1,2 @@
 #pragma once
-class Object{};
+class CPObject{};

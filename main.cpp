@@ -5,7 +5,7 @@
 #include <iostream>
 
 
-class A: public Object{
+class A: public CPObject{
 CHEN_PI(A)
 public:
     void SetNum(int value){
@@ -18,58 +18,36 @@ public:
         return m_nNum;
     }
 
-    static Object* Create(){
+    static CPObject* Create(){
         A* pA = new A();
-        return static_cast<Object*>(pA);
+        return static_cast<CPObject*>(pA);
     }
 
 public:
     int m_nNum;
 };
 
-template<typename T>
-class TestA{
-public:
-    template<typename... Args>
-    void TestFunc0(Args... args){
-        std::cout<< "TestFunc0" << std::endl;
-        TestFunc1(args...);
-    }
-
-    template<typename T1, typename... Args>
-    void TestFunc1(T1 value, Args... args){
-        std::cout<< "TestFunc1 : value :" << value <<std::endl;
-        TestFunc1(args...);
-    }
-
-    void TestFunc1(){
-        std::cout<< "TestFunc1 : end" << std::endl;
-    }
-};
-
-
 void Register(){
     A::Register();
-    // static std::map<std::string, std::map<std::string, WrapperPropertyBase*>> s_MapProperty;
-    // WrapperProperty* pWrapperProperty = new WrapperProperty()
 
     Wrapper("A", "m_nNum", &A::SetNum, &A::GetNum);
-    auto pSetFunc = &A::SetNum;
     
     auto pWrapperProperty = s_MapClassProperty["A"]["m_nNum"];
-    // pWrapperProperty->
+    A a; 
+    int nNum = 2;
+    pWrapperProperty->SetValue(&a, &nNum);
+
 }
+
+template <typename T1, typename... Args>
+class TestB{
+
+};
 
 
 
 int main(int, char**) {
-    // A* pA = new A();
-    // std::cout<<A::SetNum <<std::endl;
-    // std::cout<<&A::SetNum <<std::endl;
     Register();
-
-    TestA<int>* pTestA = new TestA<int>();
-    pTestA->TestFunc0(1,"??");
     return 0;
-
+    
 }
