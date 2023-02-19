@@ -89,11 +89,16 @@ void Wrapper(const std::string& sClassName, const std::string& sPropertyName,
 
 }
 
-#define CHEN_PI(ClassType) \
+#define REFLECTION_CLASS(ClassType) \
 public: \
+    static CPObject* Create(){\
+        ClassType* pNew = new ClassType();\
+        return static_cast<CPObject*>(pNew);\
+    }\
     static void Register(){\
         WrapperClass<ClassType>* pWClass = new WrapperClass<ClassType>();\
         pWClass->SetCreateFunc(std::function<CPObject*()>(ClassType::Create));\
         s_MapClass[#ClassType] = pWClass;\
+        ClassType::RefectionAllProperty();\
     }
 
