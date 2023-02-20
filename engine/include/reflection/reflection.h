@@ -96,3 +96,5 @@ public: \
         ClassType::RefectionAllProperty();\
     }
 
+#define REFLECTION_PROPERTYS static void RefectionAllProperty()
+

@@ -8,9 +8,10 @@
 
 class A: public CPObject{
 REFLECTION_CLASS(A)
-    static void RefectionAllProperty(){
-        Wrapper("A", "m_nNum", &A::SetNum, &A::GetNum);
-    }
+REFLECTION_PROPERTYS
+{
+    Wrapper("A", "m_nNum", &A::SetNum, &A::GetNum);
+}
 
 public:
     A(){
