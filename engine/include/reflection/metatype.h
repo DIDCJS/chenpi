@@ -11,12 +11,12 @@ public:
     }
 
 public:
-    CPObject* Create(){
+    std::shared_ptr<CPObject> Create(){
         auto iter = s_MapClass.find(m_sClassName);
         if(iter == s_MapClass.end()){
-            return nullptr;
+            return std::shared_ptr<CPObject>();
         }
-        CPObject* pObject = iter->second->Create();
+        std::shared_ptr<CPObject> pObject = iter->second->Create();
         return pObject;
     }
 

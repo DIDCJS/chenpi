@@ -8,9 +8,13 @@
 
 class A: public CPObject{
 REFLECTION_CLASS(A)
-
     static void RefectionAllProperty(){
         Wrapper("A", "m_nNum", &A::SetNum, &A::GetNum);
+    }
+
+public:
+    A(){
+        std::cout<< "A::A()"<<std::endl;
     }
 
 public:
@@ -36,9 +40,9 @@ int main(int, char**) {
     Register();
 
     MetaType meta("A");
-    CPObject* pObject = meta.Create();
+    std::shared_ptr<CPObject> pObject = meta.Create();
     int value = 23;
-    meta.SetValue(pObject, "m_nNum", static_cast<void*>(&value));
+    meta.SetValue(pObject.get(), "m_nNum", static_cast<void*>(&value));    
     return 0;
     
 }

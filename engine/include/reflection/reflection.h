@@ -1,14 +1,16 @@
 #pragma once
 #include <conpoment/cp_position.h>
 #include <core/cp_object.h>
+
 #include <iostream>
 #include <map>
 #include <functional>
+#include <memory>
 
 
 class WrapperClassBase{
 public:
-    virtual CPObject* Create() = 0;
+    virtual std::shared_ptr<CPObject> Create() = 0;
 };
 
 class WrapperPropertyBase{
@@ -19,12 +21,10 @@ public:
 template<typename Class>
 class WrapperClass : public WrapperClassBase{
 public:
-    CPObject* Create() override{
-        return static_cast<CPObject*>(new Class());
+    std::shared_ptr<CPObject> Create() override{
+        return std::shared_ptr<CPObject>(static_cast<CPObject*>(new Class()));
     }
-    void SetCreateFunc(std::function<CPObject*()> value){m_Function = value;}
 private:
-    std::function<CPObject*()> m_Function;
     using ClassType = Class;
 };
 
@@ -90,13 +90,8 @@ void Wrapper(const std::string& sClassName, const std::string& sPropertyName,
 
 #define REFLECTION_CLASS(ClassType) \
 public: \
-    static CPObject* Create(){\
-        ClassType* pNew = new ClassType();\
-        return static_cast<CPObject*>(pNew);\
-    }\
     static void Register(){\
         WrapperClass<ClassType>* pWClass = new WrapperClass<ClassType>();\
-        pWClass->SetCreateFunc(std::function<CPObject*()>(ClassType::Create));\
         s_MapClass[#ClassType] = pWClass;\
         ClassType::RefectionAllProperty();\
     }
