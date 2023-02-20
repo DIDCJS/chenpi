@@ -70,8 +70,8 @@ private:
     
 };
 
-static std::map<std::string, WrapperClassBase*> s_MapClass;
-static std::map<std::string, std::map<std::string, WrapperPropertyBase*>> s_MapClassProperty;
+static std::map<std::string, std::shared_ptr<WrapperClassBase>> s_MapClass;
+static std::map<std::string, std::map<std::string, std::shared_ptr<WrapperPropertyBase>>> s_MapClassProperty;
 
 
 
@@ -80,10 +80,10 @@ void Wrapper(const std::string& sClassName, const std::string& sPropertyName,
                     SetFunc setFunc, GetFunc getFunc){
     std::cout<<"Wrapper" << std::endl;
     if(s_MapClassProperty.find(sClassName) == s_MapClassProperty.end()){
-        s_MapClassProperty.emplace(std::pair(sClassName, std::map<std::string, WrapperPropertyBase*>()));
+        s_MapClassProperty.emplace(std::pair(sClassName, std::map<std::string, std::shared_ptr<WrapperPropertyBase>>()));
     }
     auto& propertyMap = s_MapClassProperty[sClassName];
-    WrapperProperty<SetFunc, GetFunc>* pWrapperProperty = new WrapperProperty<SetFunc, GetFunc>(setFunc, getFunc);
+    std::shared_ptr<WrapperProperty<SetFunc, GetFunc>> pWrapperProperty =  std::make_shared<WrapperProperty<SetFunc, GetFunc>>(setFunc, getFunc);
     propertyMap.emplace(std::pair(sPropertyName, pWrapperProperty));
 
 }
@@ -91,7 +91,7 @@ void Wrapper(const std::string& sClassName, const std::string& sPropertyName,
 #define REFLECTION_CLASS(ClassType) \
 public: \
     static void Register(){\
-        WrapperClass<ClassType>* pWClass = new WrapperClass<ClassType>();\
+        std::shared_ptr<WrapperClass<ClassType>> pWClass = std::make_shared<WrapperClass<ClassType>>();\
         s_MapClass[#ClassType] = pWClass;\
         ClassType::RefectionAllProperty();\
     }
