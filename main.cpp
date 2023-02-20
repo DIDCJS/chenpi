@@ -35,10 +35,10 @@ void Register(){
 int main(int, char**) {
     Register();
 
-    A* pA = static_cast<A*>(MetaType::Create("A"));
-    pA->SetNum(2);
-    std::cout<< pA->GetNum() << std::endl;
-
+    MetaType meta("A");
+    CPObject* pObject = meta.Create();
+    int value = 23;
+    meta.SetValue(pObject, "m_nNum", static_cast<void*>(&value));
     return 0;
     
 }

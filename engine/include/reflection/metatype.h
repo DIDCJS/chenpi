@@ -6,11 +6,33 @@
 
 class MetaType{
 public:
-    static CPObject* Create(std::string sClassName){
-        auto& iter = s_MapClass.find(sClassName);
+    explicit MetaType(std::string sClassName){
+        m_sClassName = sClassName;
+    }
+
+public:
+    CPObject* Create(){
+        auto iter = s_MapClass.find(m_sClassName);
         if(iter == s_MapClass.end()){
             return nullptr;
         }
-        return s_MapClass.find(sClassName)->second->Create();
+        CPObject* pObject = iter->second->Create();
+        return pObject;
     }
+
+    // static std::map<std::string, std::map<std::string, WrapperPropertyBase*>> s_MapClassProperty;
+
+    void SetValue(CPObject* pOj, std::string sPropertyName, void* pValue){
+        auto iterClass = s_MapClassProperty.find(m_sClassName);
+          if(iterClass == s_MapClassProperty.end()){
+            return;
+        }
+        auto iterProperty = iterClass->second.find(sPropertyName);
+        if(iterProperty == iterClass->second.end()){
+            return;
+        }
+        iterProperty->second->SetValue(pOj, pValue);
+    }
+
+    std::string m_sClassName;
 };

@@ -20,8 +20,7 @@ template<typename Class>
 class WrapperClass : public WrapperClassBase{
 public:
     CPObject* Create() override{
-        //TODO
-        return new CPObject();
+        return static_cast<CPObject*>(new Class());
     }
     void SetCreateFunc(std::function<CPObject*()> value){m_Function = value;}
 private:
