@@ -38,9 +38,11 @@ auto ClassFuncPtrCast(FuncPtr<ReturnType, Class, args...> pFunc){
     return static_cast<FuncPtr<ReturnType, TargetClass, args...>>(pFunc);
 }
 
+//原型
 template <typename Func>
 struct FuncTraits;
 
+//偏特化实现
 template < typename R, typename Class, typename... Args>
 struct FuncTraits<R (Class::*)(Args...)> 
 {
